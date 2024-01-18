@@ -611,7 +611,7 @@ export class SalesOrder<T extends DeSerializers = DefaultDeSerializers>
 }
 
 export interface SalesOrderType<
-  T extends DeSerializers = DefaultDeSerializers
+  T extends DeSerializers = DefaultDeSerializers,
 > {
   salesOrder: DeserializedType<T, 'Edm.String'>;
   salesOrderType?: DeserializedType<T, 'Edm.String'> | null;

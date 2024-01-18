@@ -1,11 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { SalesOrder, salesOrderService } from 'services/sales-order-service';
 const { salesOrderApi, salesOrderItemApi } = salesOrderService();
-import {
-  defaultDeSerializers,
-  entityDeserializer,
-} from '@sap-cloud-sdk/odata-v2/internal';
-import { entitySerializer } from '@sap-cloud-sdk/odata-common/';
+
 
 @Injectable()
 export class SalesOrderService {
@@ -34,9 +30,17 @@ export class SalesOrderService {
       });
   }
 
-  async createSalesOrder(salesOrder: Record<string, any>): Promise<SalesOrder> {
-    const salesOrderEntiy = salesOrderApi.entityBuilder().fromJson(salesOrder);
-    console.log(salesOrderEntiy);
+  async createSalesOrder(salesOrder: Record<string, any>) {
+    const salesOrderItemsArray = salesOrder.to_Item.results;
+
+    const salerOrderItems = salesOrderItemsArray.map((item) => {
+      return salesOrderItemApi.entityBuilder().fromJson(item);
+    });
+    const salesOrderEntiy = salesOrderApi
+      .entityBuilder()
+      .toItem(salerOrderItems)
+      .fromJson(salesOrder);
+
     return await salesOrderApi
       .requestBuilder()
       .create(salesOrderEntiy)
@@ -47,49 +51,6 @@ export class SalesOrderService {
         password: 'AHyGnbty8neBGTVtGtbgJmpyoV#VtibskwjUTUou',
       });
   }
-
-  // async createSalesOrder2(
-  //   salesOrder: Record<string, any>,
-  // ): Promise<SalesOrder> {
-  //   const salerOrderItem = salesOrderItemApi.entityBuilder().fromJson({
-  //     Material: 'TG11',
-  //     RequestedQuantity: '12',
-  //     SalesOrderItem: '1',
-  //     RequestedQuantityUnit: 'PC',
-  //     ItemGrossWeight: '6.00',
-  //     NetAmount: '89',
-  //   });
-
-  //   const salesOrderEntiy = salesOrderApi
-  //     .entityBuilder()
-  //     .toItem([salerOrderItem])
-  //     .fromJson({
-        
-  //         "Material": "TG11",
-  //         "RequestedQuantity": "12",
-  //         "SalesOrderItem": "1",
-  //         "RequestedQuantityUnit": "PC",
-  //         "ItemGrossWeight": "6.00",
-  //         "NetAmount": "89"
-          
-  //     });
-
-  //   const deserialized = entitySerializer(defaultDeSerializers).serializeEntity(
-  //     salesOrderEntiy,
-  //     salesOrderApi,
-  //   );
-
-  //   console.log(JSON.stringify(deserialized, null, 2));
-  //   return await salesOrderApi
-  //     .requestBuilder()
-  //     .create(salesOrderEntiy)
-  //     .addCustomHeaders({ Accept: 'application/json' })
-  //     .execute({
-  //       url: 'https://my405807-api.s4hana.cloud.sap',
-  //       username: 'USER_ADMINISTRATOR_HBT',
-  //       password: 'AHyGnbty8neBGTVtGtbgJmpyoV#VtibskwjUTUou',
-  //     });
-  // }
 
   async deleteSalesOrder(salesOrderId): Promise<void> {
     const response = await salesOrderApi
@@ -128,4 +89,6 @@ export class SalesOrderService {
       password: 'AHyGnbty8neBGTVtGtbgJmpyoV#VtibskwjUTUou',
     });
   }
+
+  
 }

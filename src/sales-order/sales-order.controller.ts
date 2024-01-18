@@ -37,7 +37,7 @@ export class SalesOrderController {
   @Post('/salesOrder')
   @HttpCode(201)
   async createAddress(
-    @Body() requestBody: Record<string, any>
+    @Body() requestBody: Record<string, any>,
   ): Promise<SalesOrder> {
     return await this.salesOrderService.createSalesOrder(requestBody);
   }
