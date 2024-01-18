@@ -62,9 +62,13 @@ export class SalesOrderController {
     @Body() requestBody: Record<string, any>,
     @Param('salesOrderId') salesOrderId: string,
   ): Promise<SalesOrder> {
-    return await this.salesOrderService.updateSalesOrder(
-      requestBody,
-      salesOrderId,
-    );
+    return await this.salesOrderService
+      .updateSalesOrder(requestBody, salesOrderId)
+      .catch((error) => {
+        throw new HttpException(
+          `Failed to delete sales order - ${error.message}`,
+          500,
+        );
+      });
   }
 }
