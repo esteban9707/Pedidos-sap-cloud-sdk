@@ -48,41 +48,48 @@ export class SalesOrderService {
       });
   }
 
-  async createSalesOrder2(
-    salesOrder: Record<string, any>,
-  ): Promise<SalesOrder> {
-    const salerOrderItem = salesOrderItemApi.entityBuilder().fromJson({
-      Material: 'TG11',
-      RequestedQuantity: '12',
-      SalesOrderItem: '1',
-      RequestedQuantityUnit: 'PC',
-      ItemGrossWeight: '6.00',
-      NetAmount: '89',
-    });
+  // async createSalesOrder2(
+  //   salesOrder: Record<string, any>,
+  // ): Promise<SalesOrder> {
+  //   const salerOrderItem = salesOrderItemApi.entityBuilder().fromJson({
+  //     Material: 'TG11',
+  //     RequestedQuantity: '12',
+  //     SalesOrderItem: '1',
+  //     RequestedQuantityUnit: 'PC',
+  //     ItemGrossWeight: '6.00',
+  //     NetAmount: '89',
+  //   });
 
-    const salesOrderEntiy = salesOrderApi
-      .entityBuilder()
-      .toItem([salerOrderItem])
-      .fromJson({
-        salesOrder,
-      });
+  //   const salesOrderEntiy = salesOrderApi
+  //     .entityBuilder()
+  //     .toItem([salerOrderItem])
+  //     .fromJson({
+        
+  //         "Material": "TG11",
+  //         "RequestedQuantity": "12",
+  //         "SalesOrderItem": "1",
+  //         "RequestedQuantityUnit": "PC",
+  //         "ItemGrossWeight": "6.00",
+  //         "NetAmount": "89"
+          
+  //     });
 
-    const deserialized = entitySerializer(defaultDeSerializers).serializeEntity(
-      salesOrderEntiy,
-      salesOrderApi,
-    );
+  //   const deserialized = entitySerializer(defaultDeSerializers).serializeEntity(
+  //     salesOrderEntiy,
+  //     salesOrderApi,
+  //   );
 
-    console.log(JSON.stringify(deserialized, null, 2));
-    return await salesOrderApi
-      .requestBuilder()
-      .create(salesOrderEntiy)
-      .addCustomHeaders({ Accept: 'application/json' })
-      .execute({
-        url: 'https://my405807-api.s4hana.cloud.sap',
-        username: 'USER_ADMINISTRATOR_HBT',
-        password: 'AHyGnbty8neBGTVtGtbgJmpyoV#VtibskwjUTUou',
-      });
-  }
+  //   console.log(JSON.stringify(deserialized, null, 2));
+  //   return await salesOrderApi
+  //     .requestBuilder()
+  //     .create(salesOrderEntiy)
+  //     .addCustomHeaders({ Accept: 'application/json' })
+  //     .execute({
+  //       url: 'https://my405807-api.s4hana.cloud.sap',
+  //       username: 'USER_ADMINISTRATOR_HBT',
+  //       password: 'AHyGnbty8neBGTVtGtbgJmpyoV#VtibskwjUTUou',
+  //     });
+  // }
 
   async deleteSalesOrder(salesOrderId): Promise<void> {
     const response = await salesOrderApi

@@ -1,0 +1,12 @@
+POST https://port8080-workspaces-ws-nlqmw.us10.trial.applicationstudio.cloud.sap/sales-order
+Content-Type: application/json;IEEE754Compatible=true
+
+{
+    "cityName": "Manizales",
+    "houseNumber": "",
+    "postalCode": "69190",
+    "streetName": "Calle 62 22 58"
+}
+
+
+

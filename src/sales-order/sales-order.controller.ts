@@ -39,7 +39,7 @@ export class SalesOrderController {
   async createAddress(
     @Body() requestBody: Record<string, any>
   ): Promise<SalesOrder> {
-    return await this.salesOrderService.createSalesOrder2(requestBody);
+    return await this.salesOrderService.createSalesOrder(requestBody);
   }
 
   @Delete('/:salesOrderId')
