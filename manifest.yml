@@ -1,6 +1,6 @@
 ---
 applications:
-- name: pedidos
+- name: pedidosapp
   path: .
   memory: 128M
   buildpacks:

@@ -1,4 +1,4 @@
-POST https://port8080-workspaces-ws-nlqmw.us10.trial.applicationstudio.cloud.sap/sales-order
+POST https://port8080-workspaces-ws-r8zz5.us10.applicationstudio.cloud.sap/
 Content-Type: application/json;IEEE754Compatible=true
 
 {
