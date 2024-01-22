@@ -1,4 +1,4 @@
-POST https://port8080-workspaces-ws-r8zz5.us10.applicationstudio.cloud.sap/sales-order/salesOrder
+POST http://localhost:8080/sales-order/salesOrder
 Content-Type: application/json;IEEE754Compatible=true
 
 {
@@ -42,9 +42,5 @@ Content-Type: application/json;IEEE754Compatible=true
     ]
 }
 }
-### post
-GET https://port8080-workspaces-ws-r8zz5.us10.applicationstudio.cloud.sap/sales-order
-
-
 
 

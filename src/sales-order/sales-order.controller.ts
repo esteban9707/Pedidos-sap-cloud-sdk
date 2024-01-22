@@ -10,7 +10,7 @@ import {
   Put,
 } from '@nestjs/common';
 import { SalesOrderService } from './sales-order.service';
-import { SalesOrder } from 'services/sales-order-service';
+import { SalesOrder, SalesOrderItem } from 'services/sales-order-service';
 @Controller('sales-order')
 export class SalesOrderController {
   constructor(private salesOrderService: SalesOrderService) {}
@@ -36,25 +36,25 @@ export class SalesOrderController {
 
   @Post('/salesOrder')
   @HttpCode(201)
-  async createAddress(
+  async createSalesOrder(
     @Body() requestBody: Record<string, any>,
   ): Promise<SalesOrder> {
     return await this.salesOrderService.createSalesOrder(requestBody);
   }
 
   @Delete('/:salesOrderId')
-  @HttpCode(204)
   async deleteSalesOrder(
     @Param('salesOrderId') salesOrderId: string,
-  ): Promise<void> {
-    return await this.salesOrderService
-      .deleteSalesOrder(salesOrderId)
-      .catch((error) => {
-        throw new HttpException(
-          `Failed to delete sales order - ${error.message}`,
-          500,
-        );
-      });
+  ): Promise<string> {
+    try {
+      await this.salesOrderService.deleteSalesOrder(salesOrderId);
+      return 'La orden de venta se eliminó correctamente.';
+    } catch (error) {
+      throw new HttpException(
+        `Failed to delete sales order - ${error.message}`,
+        500,
+      );
+    }
   }
 
   @Put('/:salesOrderId')
@@ -66,7 +66,48 @@ export class SalesOrderController {
       .updateSalesOrder(requestBody, salesOrderId)
       .catch((error) => {
         throw new HttpException(
-          `Failed to delete sales order - ${error.message}`,
+          `Failed to update sales order - ${error.message}`,
+          500,
+        );
+      });
+  }
+
+  @Post('/:salesOrderId/to_Item')
+  @HttpCode(201)
+  async createSalesOrderItem(
+    @Body() requestBody: Record<string, any>,
+    @Param('salesOrderId') salesOrderId: string,
+  ): Promise<SalesOrderItem> {
+    return await this.salesOrderService.createSalesOrderItem(
+      requestBody,
+      salesOrderId,
+    );
+  }
+
+  @Get('/:salesOrderId/to_Item')
+  async getSalesOrderItem(
+    @Param('salesOrderId') salesOrderId: string,
+  ): Promise<SalesOrder> {
+    return await this.salesOrderService
+      .getSalesOrderItem(salesOrderId)
+      .catch((error) => {
+        throw new HttpException(
+          `Failed to get sales order - ${error.message}`,
+          500,
+        );
+      });
+  }
+
+  @Get('/:salesOrderId/to_Item/:salesOrderItemId')
+  async getSalesOrderItemById(
+    @Param('salesOrderId') salesOrderId: string,
+    @Param('salesOrderItemId') salesOrderItemId: string,
+  ): Promise<SalesOrderItem> {
+    return await this.salesOrderService
+      .getSalesOrderItemById(salesOrderId, salesOrderItemId)
+      .catch((error) => {
+        throw new HttpException(
+          `Failed to get sales order - ${error.message}`,
           500,
         );
       });

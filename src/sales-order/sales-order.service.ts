@@ -1,11 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { SalesOrder, salesOrderService } from 'services/sales-order-service';
+import {
+  SalesOrder,
+  SalesOrderItem,
+  salesOrderService,
+} from 'services/sales-order-service';
 const { salesOrderApi, salesOrderItemApi } = salesOrderService();
-
 
 @Injectable()
 export class SalesOrderService {
-  
   destination = {
     url: 'https://my405807-api.s4hana.cloud.sap',
     username: 'USER_ADMINISTRATOR_HBT',
@@ -22,10 +24,10 @@ export class SalesOrderService {
         .execute(this.destination);
     } catch (error) {
       console.error('Error en getAllSalesOrder:', error);
-      throw error; 
+      throw error;
     }
   }
-  
+
   async getSalesOrderById(id: string): Promise<SalesOrder> {
     try {
       return await salesOrderApi
@@ -38,11 +40,11 @@ export class SalesOrderService {
       throw error;
     }
   }
-  
+
   async createSalesOrder(salesOrder: Record<string, any>) {
     try {
       const salesOrderItemsArray = salesOrder.to_Item.results;
-  
+
       const salerOrderItems = salesOrderItemsArray.map((item) => {
         return salesOrderItemApi.entityBuilder().fromJson(item);
       });
@@ -50,7 +52,7 @@ export class SalesOrderService {
         .entityBuilder()
         .toItem(salerOrderItems)
         .fromJson(salesOrder);
-  
+
       return await salesOrderApi
         .requestBuilder()
         .create(salesOrderEntity)
@@ -61,38 +63,88 @@ export class SalesOrderService {
       throw error;
     }
   }
-  
-  async deleteSalesOrder(salesOrderId): Promise<void> {
+
+  async deleteSalesOrder(salesOrderId): Promise<string> {
     try {
       const response = await salesOrderApi
         .requestBuilder()
         .getByKey(salesOrderId)
         .addCustomHeaders({ Accept: 'application/json' })
         .execute(this.destination);
-  
-      return await salesOrderApi.requestBuilder().delete(response).execute(this.destination);
+
+      await salesOrderApi
+        .requestBuilder()
+        .delete(response)
+        .execute(this.destination);
+
+      return 'La orden de venta se eliminó correctamente.';
     } catch (error) {
       console.error('Error en deleteSalesOrder:', error);
       throw error;
     }
   }
-  
+
   async updateSalesOrder(requestBody, salesOrderId): Promise<SalesOrder> {
     try {
-      let response = await salesOrderApi
+      const response = await salesOrderApi
         .requestBuilder()
         .getByKey(salesOrderId)
         .addCustomHeaders({ Accept: 'application/json' })
         .execute(this.destination);
-  
+
       Object.assign(response, requestBody);
-  
-      return await salesOrderApi.requestBuilder().update(response).execute(this.destination);
+
+      return await salesOrderApi
+        .requestBuilder()
+        .update(response)
+        .execute(this.destination);
     } catch (error) {
       console.error('Error en updateSalesOrder:', error);
       throw error;
     }
   }
 
-  
+  async createSalesOrderItem(
+    sales: Record<string, any>,
+    salesOrderId: string,
+  ): Promise<SalesOrderItem> {
+    const salesOrderItem = salesOrderItemApi
+      .entityBuilder()
+      .fromJson({ salesOrder: salesOrderId, ...sales });
+
+    return await salesOrderItemApi
+      .requestBuilder()
+      .create(salesOrderItem)
+      .execute(this.destination);
+  }
+
+  async getSalesOrderItem(salesOrderId: string): Promise<SalesOrder> {
+    try {
+      return await salesOrderApi
+        .requestBuilder()
+        .getByKey(salesOrderId)
+        .select(salesOrderApi.schema.TO_ITEM)
+        .addCustomHeaders({ Accept: 'application/json' })
+        .execute(this.destination);
+    } catch (error) {
+      console.error('Error en getAllSalesOrder:', error);
+      throw error;
+    }
+  }
+
+  async getSalesOrderItemById(
+    salesOrderId: string,
+    salesOrderItemId: string,
+  ): Promise<SalesOrderItem> {
+    try {
+      return await salesOrderItemApi
+        .requestBuilder()
+        .getByKey(salesOrderId, salesOrderItemId)
+        .addCustomHeaders({ Accept: 'application/json' })
+        .execute(this.destination);
+    } catch (error) {
+      console.error('Error en getAllSalesOrder:', error);
+      throw error;
+    }
+  }
 }
