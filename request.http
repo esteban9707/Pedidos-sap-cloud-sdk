@@ -1,12 +1,50 @@
-POST https://port8080-workspaces-ws-r8zz5.us10.applicationstudio.cloud.sap/
+POST https://port8080-workspaces-ws-r8zz5.us10.applicationstudio.cloud.sap/sales-order/salesOrder
 Content-Type: application/json;IEEE754Compatible=true
 
 {
-    "cityName": "Manizales",
-    "houseNumber": "",
-    "postalCode": "69190",
-    "streetName": "Calle 62 22 58"
+"salesOrderType": "OR",
+"salesOrganization": "4810",
+"distributionChannel": "10",
+"organizationDivision": "00",
+"salesGroup": "",
+"salesOffice": "",
+"salesDistrict": "CO0001",
+"soldToParty": "48100001",
+"createdByUser": "CC0000000003",
+"purchaseOrderByCustomer":"PEDIDO desde cliente externo api",
+"to_Item": {
+    "results": [
+    {
+    "material": "TG11",
+    "requestedQuantity": "12",
+    "salesOrderItem": "1",
+    "requestedQuantityUnit": "PC",
+    "itemGrossWeight": "6.00",
+    "netAmount": "89"
+    },
+     {
+    "material": "TG14",
+    "requestedQuantity": "10",
+    "salesOrderItem": "2",
+    "requestedQuantityUnit": "PC",
+    "itemGrossWeight": "6.00",
+    "netAmount": "89"
+    },
+      {
+    "material": "TG14",
+    "requestedQuantity": "10",
+    "salesOrderItem": "10",
+    "requestedQuantityUnit": "PC",
+    "itemGrossWeight": "6.00",
+    "netAmount": "89"
+      }
+
+    ]
 }
+}
+### post
+GET https://port8080-workspaces-ws-r8zz5.us10.applicationstudio.cloud.sap/sales-order
+
 
 
 
