@@ -127,7 +127,7 @@ export class SalesOrderService {
         .addCustomHeaders({ Accept: 'application/json' })
         .execute(this.destination);
     } catch (error) {
-      console.error('Error en getAllSalesOrder:', error);
+      console.error('Error en getSalesOrderItem:', error);
       throw error;
     }
   }
@@ -143,7 +143,7 @@ export class SalesOrderService {
         .addCustomHeaders({ Accept: 'application/json' })
         .execute(this.destination);
     } catch (error) {
-      console.error('Error en getAllSalesOrder:', error);
+      console.error('Error en getSalesOrderItemById:', error);
       throw error;
     }
   }
