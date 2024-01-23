@@ -78,5 +78,7 @@ Content-Type: application/json;IEEE754Compatible=true
 "purchaseOrderByCustomer":"PEDIDO editado desde cliente api"
 }
 
+### borrar un pedido 
 
+DELETE http://localhost:8080/sales-order/219
 
