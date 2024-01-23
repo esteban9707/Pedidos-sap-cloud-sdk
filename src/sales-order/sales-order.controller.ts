@@ -14,6 +14,8 @@ import { SalesOrder, SalesOrderItem } from 'services/sales-order-service';
 @Controller('sales-order')
 export class SalesOrderController {
   constructor(private salesOrderService: SalesOrderService) {}
+
+  //Obtener listado de pedidos 
   @Get()
   async getSalesOrder(): Promise<SalesOrder[]> {
     return await this.salesOrderService.getAllSalesOrder().catch((error) => {
@@ -24,6 +26,7 @@ export class SalesOrderController {
     });
   }
 
+  //Obtener un pedido a traves de un id
   @Get('/:id')
   async getSalesOrderById(@Param('id') id: string): Promise<SalesOrder> {
     return await this.salesOrderService.getSalesOrderById(id).catch((error) => {
@@ -34,6 +37,7 @@ export class SalesOrderController {
     });
   }
 
+  //Crear un pedido con sus líneas
   @Post('/salesOrder')
   @HttpCode(201)
   async createSalesOrder(
@@ -42,6 +46,7 @@ export class SalesOrderController {
     return await this.salesOrderService.createSalesOrder(requestBody);
   }
 
+  //Eliminar un pedido por id
   @Delete('/:salesOrderId')
   async deleteSalesOrder(
     @Param('salesOrderId') salesOrderId: string,
@@ -57,6 +62,7 @@ export class SalesOrderController {
     }
   }
 
+  //Editar un pedido
   @Put('/:salesOrderId')
   async updateSalesOrder(
     @Body() requestBody: Record<string, any>,
@@ -72,6 +78,7 @@ export class SalesOrderController {
       });
   }
 
+  // Crear una línea a un pedido
   @Post('/:salesOrderId/to_Item')
   @HttpCode(201)
   async createSalesOrderItem(
@@ -84,6 +91,7 @@ export class SalesOrderController {
     );
   }
 
+  //Obtener líneas de un pedido
   @Get('/:salesOrderId/to_Item')
   async getSalesOrderItem(
     @Param('salesOrderId') salesOrderId: string,
@@ -98,6 +106,7 @@ export class SalesOrderController {
       });
   }
 
+  //Obtener detalles de una línea de un pedido
   @Get('/:salesOrderId/to_Item/:salesOrderItemId')
   async getSalesOrderItemById(
     @Param('salesOrderId') salesOrderId: string,
