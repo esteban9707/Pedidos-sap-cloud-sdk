@@ -8,13 +8,13 @@ const { salesOrderApi, salesOrderItemApi } = salesOrderService();
 
 @Injectable()
 export class SalesOrderService {
-  // destination = {
-  //   url: 'https://my405807-api.s4hana.cloud.sap',
-  //   username: 'USER_ADMINISTRATOR_HBT',
-  //   password: 'AHyGnbty8neBGTVtGtbgJmpyoV#VtibskwjUTUou',
-  // };
+  destination = {
+    url: 'https://my405807-api.s4hana.cloud.sap',
+    username: 'USER_ADMINISTRATOR_HBT',
+    password: 'AHyGnbty8neBGTVtGtbgJmpyoV#VtibskwjUTUou',
+  };
 
-  destination = JSON.parse(process.env.destination);
+  //destination = JSON.parse(process.env.destination);
   async getAllSalesOrder(): Promise<SalesOrder[]> {
     try {
       return await salesOrderApi

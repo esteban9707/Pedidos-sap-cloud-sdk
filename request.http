@@ -1,3 +1,17 @@
+### Obtener listado de pedidos 
+GET http://localhost:8080/sales-order
+
+### Obtener un pedido a traves de un id
+GET http://localhost:8080/sales-order/219
+
+### Obtener líneas de un pedido
+GET http://localhost:8080/sales-order/219/to_item
+
+### Obtener detalles de una línea de un pedido
+GET http://localhost:8080/sales-order/219/to_item/1
+
+
+### Crear un pedido con sus líneas
 POST http://localhost:8080/sales-order/salesOrder
 Content-Type: application/json;IEEE754Compatible=true
 
@@ -42,5 +56,27 @@ Content-Type: application/json;IEEE754Compatible=true
     ]
 }
 }
+
+### Crear una línea a un pedido 
+POST http://localhost:8080/sales-order/236/to_Item
+Content-Type: application/json;IEEE754Compatible=true
+
+{
+    "material": "TG11",
+    "requestedQuantity": "12",
+    "salesOrderItem": "1",
+    "requestedQuantityUnit": "PC",
+    "itemGrossWeight": "6.00",
+    "netAmount": "89"
+}
+
+### Editar un pedido
+PUT http://localhost:8080/sales-order/235
+Content-Type: application/json;IEEE754Compatible=true
+
+{
+"purchaseOrderByCustomer":"PEDIDO editado desde cliente api"
+}
+
 
 
