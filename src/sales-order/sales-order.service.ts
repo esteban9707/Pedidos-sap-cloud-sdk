@@ -77,11 +77,9 @@ export class SalesOrderService {
         .requestBuilder()
         .delete(response)
         .execute(this.destination);
-
       return 'La orden de venta se eliminó correctamente.';
-    } catch (error) {
-      console.error('Error en deleteSalesOrder:', error);
-      throw error;
+    } catch (err) {
+      throw err;
     }
   }
 

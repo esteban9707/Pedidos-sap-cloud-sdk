@@ -15,12 +15,12 @@ import { SalesOrder, SalesOrderItem } from 'services/sales-order-service';
 export class SalesOrderController {
   constructor(private salesOrderService: SalesOrderService) {}
 
-  //Obtener listado de pedidos 
+  //Obtener listado de pedidos
   @Get()
   async getSalesOrder(): Promise<SalesOrder[]> {
     return await this.salesOrderService.getAllSalesOrder().catch((error) => {
       throw new HttpException(
-        `Failed to get business partners - ${error.message}`,
+        `Failed to get business partners - ${error.cause?.message}`,
         500,
       );
     });
@@ -31,7 +31,7 @@ export class SalesOrderController {
   async getSalesOrderById(@Param('id') id: string): Promise<SalesOrder> {
     return await this.salesOrderService.getSalesOrderById(id).catch((error) => {
       throw new HttpException(
-        `Failed to get sales order - ${error.message}`,
+        `Failed to get sales order - ${error.cause?.message}`,
         500,
       );
     });
@@ -56,7 +56,7 @@ export class SalesOrderController {
       return 'La orden de venta se eliminó correctamente.';
     } catch (error) {
       throw new HttpException(
-        `Failed to delete sales order - ${error.message}`,
+        `Failed to delete sales order - ${error.cause?.message}`,
         500,
       );
     }
@@ -72,7 +72,7 @@ export class SalesOrderController {
       .updateSalesOrder(requestBody, salesOrderId)
       .catch((error) => {
         throw new HttpException(
-          `Failed to update sales order - ${error.message}`,
+          `Failed to update sales order - ${error.cause?.message}`,
           500,
         );
       });
@@ -85,10 +85,14 @@ export class SalesOrderController {
     @Body() requestBody: Record<string, any>,
     @Param('salesOrderId') salesOrderId: string,
   ): Promise<SalesOrderItem> {
-    return await this.salesOrderService.createSalesOrderItem(
-      requestBody,
-      salesOrderId,
-    );
+    return await this.salesOrderService
+      .createSalesOrderItem(requestBody, salesOrderId)
+      .catch((error) => {
+        throw new HttpException(
+          `Failed to update sales order - ${error.cause?.message}`,
+          500,
+        );
+      });
   }
 
   //Obtener líneas de un pedido
@@ -100,7 +104,7 @@ export class SalesOrderController {
       .getSalesOrderItem(salesOrderId)
       .catch((error) => {
         throw new HttpException(
-          `Failed to get sales order - ${error.message}`,
+          `Failed to get sales order - ${error.cause?.message}`,
           500,
         );
       });
@@ -116,7 +120,7 @@ export class SalesOrderController {
       .getSalesOrderItemById(salesOrderId, salesOrderItemId)
       .catch((error) => {
         throw new HttpException(
-          `Failed to get sales order - ${error.message}`,
+          `Failed to get sales order - ${error.cause?.message}`,
           500,
         );
       });
