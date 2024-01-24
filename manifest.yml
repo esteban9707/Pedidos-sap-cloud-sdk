@@ -1,6 +1,6 @@
 ---
 applications:
-- name: pedidosapp
+- name: pedidosCCA
   path: .
   memory: 128M
   buildpacks:
